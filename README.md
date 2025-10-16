@@ -24,7 +24,7 @@ source venv/bin/activate
 ```
 Para Windows:
 ```
-.venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 Crea el archivo .env, este archivo debe de contener:
