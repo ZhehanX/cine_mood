@@ -4,14 +4,14 @@ import { useState } from 'react';
 import axios from 'axios';
 import MovieCard from './components/Movie_card';
 
-// La nueva 'forma' de los datos de una película, incluyendo los géneros
+
 interface Movie {
   id: number;
   title: string;
   year: string;
   poster_url: string;
   overview: string;
-  genres: string[]; // <-- Nuevo campo para los géneros
+  genres: string[]; 
 }
 
 export default function HomePage() {
@@ -19,6 +19,8 @@ export default function HomePage() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
