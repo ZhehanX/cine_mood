@@ -52,21 +52,23 @@ export default function HomePage() {
         <h1 className="text-4xl sm:text-5xl font-bold mb-4">🎬 CineMood</h1>
         <p className="text-lg sm:text-xl text-gray-400 mb-8">¿Qué película te apetece ver hoy?</p>
         
-        <form onSubmit={handleSubmit} className="mb-12">
-          <input
-            type="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ej: 'Quiero ver algo de ciencia ficción con robots'"
-            className="w-full max-w-xl p-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          />
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="mt-4 px-8 py-3 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-500 disabled:cursor-not-allowed"
-          >
-            {isLoading ? 'Buscando...' : 'Encuentra mi película'}
-          </button>
+        <form onSubmit={handleSubmit} className="mb-12 max-w-2xl mx-auto">
+          <div className="flex items-center gap-x-3">
+            <input
+              type="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Ej: 'Me siento aventurero y quiero ver algo con mucha acción'"
+              className="flex-grow p-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            />
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="px-6 py-4 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-500 disabled:cursor-not-allowed whitespace-nowrap"
+            >
+              {isLoading ? 'Buscando...' : 'Encuentra mi película'}
+            </button>
+          </div>
         </form>
 
         {error && <p className="text-red-500 text-lg">{error}</p>}
