@@ -1,16 +1,17 @@
-'use client'; // Directiva para indicar que es un componente de cliente en Next.js App Router
+'use client';
 
 import { useState } from 'react';
 import axios from 'axios';
-import MovieCard from './components/Movie_card'; 
+import MovieCard from './components/Movie_card';
 
-// Definimos la 'forma' de los datos de una película
+// La nueva 'forma' de los datos de una película, incluyendo los géneros
 interface Movie {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
+  id: number;
+  title: string;
+  year: string;
+  poster_url: string;
+  overview: string;
+  genres: string[]; // <-- Nuevo campo para los géneros
 }
 
 export default function HomePage() {
@@ -46,17 +47,17 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-900 text-white p-8">
-      <div className="container mx-auto max-w-4xl text-center">
-        <h1 className="text-5xl font-bold mb-4">🎬 CineMood</h1>
-        <p className="text-xl text-gray-400 mb-8">¿Cómo te sientes hoy?</p>
+    <main className="min-h-screen bg-gray-900 text-white p-4 sm:p-8">
+      <div className="container mx-auto max-w-6xl text-center">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-4">🎬 CineMood</h1>
+        <p className="text-lg sm:text-xl text-gray-400 mb-8">¿Qué película te apetece ver hoy?</p>
         
         <form onSubmit={handleSubmit} className="mb-12">
           <input
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ej: 'Me siento aventurero y quiero ver mucha acción.'"
+            placeholder="Ej: 'Quiero ver algo de ciencia ficción con robots'"
             className="w-full max-w-xl p-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
           <button
@@ -73,9 +74,9 @@ export default function HomePage() {
         {movies.length > 0 && (
           <div>
             <h2 className="text-3xl font-bold mb-6">Aquí tienes algunas recomendaciones:</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {movies.map((movie) => (
-                <MovieCard key={movie.imdbID} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} />
               ))}
             </div>
           </div>
@@ -84,3 +85,4 @@ export default function HomePage() {
     </main>
   );
 }
+
