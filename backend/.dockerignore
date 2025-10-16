@@ -1,0 +1,4 @@
+# Ignorar dependencias y la carpeta de build local
+node_modules
+.next
+.env.local

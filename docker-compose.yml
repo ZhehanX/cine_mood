@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Servicio del Backend (FastAPI)
+  backend:
+    build: ./backend
+    container_name: cinemood_backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app # Sincroniza el código para desarrollo
+
+  # Servicio del Frontend (Next.js)
+  frontend:
+    build: ./frontend
+    container_name: cinemood_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Evita que el node_modules local sobreescriba el del contenedor
+      - /app/.next
+    depends_on:
+      - backend
+    environment:
+      # Pasa la URL del backend al contenedor del frontend
+      - NEXT_PUBLIC_API_URL=http://backend:8000
