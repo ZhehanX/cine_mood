@@ -43,6 +43,8 @@ def recommend_movie(user_input: UserInput):
         all_genres = genre_response.json()["genres"]
         genre_map = {genre['id']: genre['name'] for genre in all_genres}
 
+        available_genres = ", ".join([genre['name'] for genre in all_genres])
+        
         # 2. Consultar a Gemini para obtener un género del prompt del usuario
         google_api_key = os.getenv("GOOGLE_API_KEY")
         if not google_api_key:
@@ -53,14 +55,20 @@ def recommend_movie(user_input: UserInput):
         
 
         prompt_template = f"""
+        Tu tarea es analizar el texto de un usuario y extraer un único género cinematográfico en español. Sigue estas reglas estrictamente:
 
-            Tu única tarea es extraer una sola palabra clave (un género o tema cinematográfico) en español del texto de un usuario.
-            Responde solo y únicamente con esa palabra, sin puntuación ni texto adicional.
-            Ejemplo 1: si el usuario dice 'quiero algo de risa', tu respuesta debe ser exactamente 'comedia'.
-            Ejemplo 2: si el usuario dice 'naves espaciales y el futuro', tu respuesta debe ser exactamente 'ciencia ficción'.
-            Ejemplo 3: si el usuario dice 'miedo y sustos', tu respuesta debe ser 'terror'.
+        1.  **Objetivo Principal:** Identifica el género más dominante en el texto.
+        2.  **Respuesta:** Responde solo y únicamente con el nombre del género, sin puntuación ni texto adicional.
+        3.  **Múltiples Géneros:** Si el usuario menciona varios géneros (ej: 'una comedia de terror'), elige el primero que mencione ('Comedia').
+        4.  **Sin Género Claro:** Si el texto es ambiguo o no menciona un género reconocible (ej: 'algo para pasar el rato', 'una película buena'), responde con 'Aventura'.
+        5.  **Géneros Disponibles como Guía (no incluyas esto en tu respuesta):** {available_genres}
 
-            Texto del usuario: '{user_input.prompt}'
+        Ejemplos:
+        -   Usuario: 'quiero algo de risa y romance' -> Tu respuesta: Comedia
+        -   Usuario: 'naves espaciales y el futuro' -> Tu respuesta: Ciencia ficción
+        -   Usuario: 'dame una película, la que sea' -> Tu respuesta: Aventura
+
+        Texto del usuario: '{user_input.prompt}'
         """
 
         print("-> Consultando Gemini...")
